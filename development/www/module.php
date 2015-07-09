@@ -1,21 +1,31 @@
 <?php
 
-    class file {
-        public $path = './images';
-        public function uploadFile($file){
-            if(isset($_FILES['upload'])){
-                if(isset($_POST['submit'])){
-                    copy($_FILES['upload']['tmp_name'],$this->path);
+    class file
+    {
+        public function upLoadFile()
+        {
+            if(isset($_POST['submit']))
+            {
+                if(is_uploaded_file($_FILES['upload']['tmp_name']))
+                {
+                    copy($_FILES["upload"]["tmp_name"], "images/".$_FILES["upload"]["name"]);
+                    exit( "Фото загружено");
+                }
+                else
+                {
+                    echo 'Фото не загружено';
                 }
             }
-            else{
-                echo "Error";
+            else
+            {
+                echo "Выберите файл и нажмите загрузить фотографию";
             }
 
-        }
 
+        }
     }
 
     $file = new file;
-    $file->uploadFile($_FILES['upload']);
+    $file -> upLoadFile();
+
 ?>
