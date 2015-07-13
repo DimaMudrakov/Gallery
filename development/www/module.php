@@ -13,29 +13,58 @@
                         if($_FILES['upload']['size'] <= 1048576)
                         {
                             copy($_FILES["upload"]["tmp_name"], "images/".$_FILES["upload"]["name"]);
-                            exit( "Фото загружено");
+                            return true;
                         }
                         else
                         {
-                            echo "Размер файла не должен превышать 1мб";
+                            exit( "Размер файла не должен превышать 1мб");
                         }
                     }
                     else
                     {
-                        echo "Не верный формат файла";
+                        exit ("Не верный формат файла");
                     }
                 }
                 else
                 {
-                    echo "Выберите файл";
+                    exit ("Выберите файл");
                 }
 
             }
             else
             {
-                echo "Выберите файл и нажмите загрузить фотографию";
+                exit ("Выберите файл и нажмите загрузить фотографию");
             }
 
+        }
+    }
+    class ConnectDatabases
+    {
+        public function connectDatabase($host, $user, $password)
+        {
+            $connect =  mysql_connect($host, $user, $password);
+            return $connect ;
+
+        }
+        public  function selectDataBase($DaBa)
+        {
+            $select = mysql_select_db($DaBa);
+            return $select;
+        }
+    }
+    class displayImage extends fileUpload
+    {
+        public function getDisplayimg($file)
+        {
+            $this -> upLoadFile();
+            if($this -> upLoadFile() == true)
+            {
+                for($i = 0; $i <count($file);$i++)
+                {
+                    echo '<img alt = "Фото" src = "images/.$file">';
+                }
+                echo "фото загружено";
+            }
         }
     }
 
@@ -43,5 +72,12 @@
 
     $file = new fileUpload;
     $file -> upLoadFile();
+    $db = new ConnectDatabases;
+    $db -> connectDatabase('localhost','root', '3333');
+    $db -> selectDataBase('gallery');
+    $displayimg = new displayImage;
+    $displayimg -> getDisplayimg($_FILES['upload']['name']);
+
+
 
 ?>
