@@ -13,6 +13,7 @@
                         if($_FILES['upload']['size'] <= 1048576)
                         {
                             copy($_FILES["upload"]["tmp_name"], "images/".$_FILES["upload"]["name"]);
+                            $this -> imageResize ($_FILES['upload']['tmp_name'], 'img_small/' . $_FILES['upload']['name'], 320, 500, 100);
                             return true;
                         }
                         else
@@ -37,6 +38,47 @@
             }
 
         }
+        public function imageResize($source_path, $destination_path, $newwidth, $newheight, $quality)
+        {
+            ini_set("gd.jpeg_ignore_warning", 1);
+            list($oldwidth, $oldheight, $type) = getimagesize($source_path);
+
+            switch ($type)
+            {
+                case IMAGETYPE_JPEG: $typestr = 'jpeg'; break;
+                case IMAGETYPE_JPG: $typestr = 'jpg' ; break;
+                case IMAGETYPE_PNG: $typestr = 'png'; break;
+            }
+
+            $function = "imagecreatefrom$typestr";
+            $src_resource = $function($source_path);
+
+            if (!$newheight)
+            {
+                $newheight = round($newwidth * $oldheight/$oldwidth);
+            }
+            elseif (!$newwidth)
+            {
+                $newwidth = round($newheight * $oldwidth/$oldheight);
+            }
+            $destination_resource = imagecreatetruecolor($newwidth,$newheight);
+
+            imagecopyresampled($destination_resource, $src_resource, 0, 0, 0, 0, $newwidth, $newheight, $oldwidth, $oldheight);
+
+            if ($type = 2)
+            {
+                imageinterlace($destination_resource, 1);
+                imagejpeg($destination_resource, $destination_path, $quality);
+            }
+            else
+            {
+                $function = "image$typestr";
+                $function($destination_resource, $destination_path);
+            }
+
+            imagedestroy($destination_resource);
+            imagedestroy($src_resource);
+        }
     }
     class ConnectDatabases
     {
@@ -56,14 +98,16 @@
     {
         public function getDisplayimg($file)
         {
-            $this -> upLoadFile();
             if($this -> upLoadFile() == true)
             {
                 for($i = 0; $i <count($file);$i++)
                 {
-                    echo '<img alt = "Фото" src = "images/.$file">';
+                    echo '<img alt = "Фото" src = "img_small/'.$file .'">';
                 }
-                echo "фото загружено";
+            }
+            else
+            {
+                echo "фото не загружено";
             }
         }
     }
@@ -77,7 +121,5 @@
     $db -> selectDataBase('gallery');
     $displayimg = new displayImage;
     $displayimg -> getDisplayimg($_FILES['upload']['name']);
-
-
 
 ?>
