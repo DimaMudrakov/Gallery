@@ -3,18 +3,15 @@
     require_once './upload.php';
 class FileManager {
 
-    private $upload;
-
-    public function Copy()
+    private $newPath;
+    private $tmpName;
+    public function CopyFile($tmpName, $newPath)
     {
-        $this -> upload = new Upload();
-        if($this -> upload -> Redirect() == true){
-            copy($_FILES["upload"]["tmp_name"], "image/" . $_FILES["upload"]["name"]);
-            return true;
-        }
-        else{
-            return false;
-        }
+            $this->newPath = $newPath;
+            $this->tmpName = $tmpName;
+
+        copy($this->tmpName,$this->newPath);
+
     }
     public function getGallery()
     {
@@ -36,22 +33,20 @@ class FileManager {
     public function echoGallery()
     {
 
-        if ($this->Copy() == true and $this->getGallery() == true) {
+        if ($this->getGallery() == true) {
 
             $images = $this-> getGallery();
 
             foreach ($images as $img) {
                     echo '<a href = "image/' . $img . '"><img width = "300px" height = "300px" alt = "Фото" src = "image/' . $img . '"></a>';
-
             }
 
-        } else {
-            echo "фото не загружено";
+        }
+        else {
+                     echo "фото не загружено";
         }
     }
 
 
 }
-$filemanager = new FileManager();
-$filemanager->Copy();
-$filemanager->echoGallery();
+
