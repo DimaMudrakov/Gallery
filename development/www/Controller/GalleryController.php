@@ -1,9 +1,9 @@
 <?php
-include_once "Classes/DBProvider.php";
-include_once "Classes/FileManager.php";
-include_once "Model/Model.php";
-include_once "Model/Image.php";
-include_once "Model/Comment.php";
+include_once "./Classes/DBProvider.php";
+include_once "./Classes/FileManager.php";
+include_once "./Model/Model.php";
+include_once "./Model/Image.php";
+include_once "./Model/Comment.php";
 
 class GalleryController
 {
@@ -30,7 +30,4 @@ class GalleryController
 
 }
 $controller = new GalleryController();
-$fileManager = new FileManager;
-$fileManager -> echoGallery();
-
 ?>
