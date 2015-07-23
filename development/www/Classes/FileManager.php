@@ -10,6 +10,7 @@ class FileManager {
         $this -> upload = new Upload();
         if($this -> upload -> Redirect() == true){
             copy($_FILES["upload"]["tmp_name"], "image/" . $_FILES["upload"]["name"]);
+            return true;
         }
         else{
             return false;
@@ -51,3 +52,6 @@ class FileManager {
 
 
 }
+$filemanager = new FileManager();
+$filemanager->Copy();
+$filemanager->echoGallery();

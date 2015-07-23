@@ -1,6 +1,7 @@
 <?php
 
     require_once 'Controller/UploadController.php';
+    require_once 'Classes/FileManager.php';
 
     class Upload{
 
