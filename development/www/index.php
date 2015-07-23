@@ -1,4 +1,4 @@
 <?php
     require_once "view/index.html";
-    require_once "module.php";
+    require_once "GalleryController.php";
 ?>
