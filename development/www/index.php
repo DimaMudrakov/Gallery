@@ -7,9 +7,15 @@
 
         public function EchoCookie(){
 
-            $this -> cookie = $_COOKIE['Error'];
-            echo $this -> cookie;
-            unset($this -> cookie);
+            if(isset($_COOKIE['Error'])) {
+                $this -> cookie = $_COOKIE['Error'];
+                echo $this->cookie;
+                unset($this->cookie);
+            }
+            else{
+                echo "Выберите файл и нажмите загрузить фотографию";
+            }
+
         }
     }
     $index = new index();
