@@ -1,6 +1,7 @@
 <?php
     require_once 'View/upload.html';
     require_once 'Controller/UploadController.php';
+    require_once 'Controller/GalleryController.php';
     require_once 'Classes/FileManager.php';
 
 
@@ -8,16 +9,18 @@
     class Upload{
 
         private $UploadController;
+        private $galleryController;
         private $tmpName;
         private $newName;
 
         public function Redirect(){
 
             $this -> UploadController = new UploadController();
+            $this-> galleryController = new GalleryController();
 
             if($this-> UploadController->CheckUploadStatus() == true) {
                 $this -> tmpName = $_FILES["upload"]["tmp_name"];
-                $this -> newName = "image/" . $_FILES["upload"]["name"];
+                $this -> newName = "image/" . $this->galleryController->model->GetUUID();
 
                 $filemanager = new FileManager();
                 $filemanager -> CopyFile($this->tmpName,$this -> newName);
