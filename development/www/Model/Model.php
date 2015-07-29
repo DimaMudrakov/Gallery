@@ -1,10 +1,16 @@
 <?php
 
+    require_once 'Image.php';
+    require_once './Controller/GalleryController.php';
+    require_once './Classes/DisplaySelect.php';
+
 class Model {
 
     private $dbProvider;
     private $dbConnection;
-    //public $select;
+    private $image;
+    private $controller;
+    private $DisplaySelect;
 
     public  function __construct($dbProvider){
 
@@ -26,6 +32,18 @@ class Model {
         $cmd->execute();
 
     }
+    public function ProcessInsertImage($BaseName, $CreateTS, $UUIDName){
+
+        $this->image = new Image();
+        $this->controller = new GalleryController();
+
+        $this->image->BaseName = $BaseName;
+        $this->image->CreateTS = $CreateTS;
+        $this->image->UUIDName = $UUIDName;
+
+        $this->controller->model->InsertImage($this->image);
+
+    }
     public function SelectImage($image){
 
         $cmd = $this->dbConnection->prepare("SELECT CreateTS FROM image WHERE BaseName = :BaseName");
@@ -36,6 +54,18 @@ class Model {
 
         return $cmd->fetch();
 
+
+    }
+    public function ProcessSelectImage($BaseName){
+
+        $this->image = new Image();
+        $this->controller = new GalleryController();
+        $this->DisplaySelect = new DisplaySelect();
+
+        $this->image->BaseName = $BaseName;
+
+        $select = $this->controller->model->SelectImage($this->image);
+        $this->DisplaySelect->echoCreateTS($select);
 
     }
     public function GetUUID() {
