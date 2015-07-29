@@ -2,41 +2,41 @@
     require_once 'View/upload.html';
     require_once 'Controller/UploadController.php';
     require_once 'Controller/GalleryController.php';
+    require_once 'Model/Image.php';
     require_once 'Classes/FileManager.php';
-    require_once 'Classes/DisplaySelect.php';
+
 
 
     class Upload{
 
-        private $displaySelect;
         private $UploadController;
         private $galleryController;
         private $filemanager;
-
+        private $image;
+        private $tmpName;
+        private $newName;
 
         public function Redirect(){
 
-            $this -> displaySelect = new DisplaySelect();
             $this -> UploadController = new UploadController();
             $this -> galleryController = new GalleryController();
             $this -> filemanager = new FileManager();
+            $this -> image = new Image();
 
             if($this-> UploadController->CheckUploadStatus() == true) {
 
-                $tmpName = $_FILES["upload"]["tmp_name"];
-                $newName = "image/";
-                $UUIDName = $this->galleryController->model->GetUUID();
+                $this -> tmpName = $_FILES["upload"]["tmp_name"];
+                $this -> newName = "image/" . $this->galleryController->model->GetUUID();
 
-                $this -> filemanager -> CopyFile($tmpName,$newName . $UUIDName);
-
-                $BaseName = $_FILES["upload"]["name"];
-                $CreateTS = date('Y-m-d H:i:s');
+                $this-> filemanager -> CopyFile($this->tmpName,$this -> newName);
+                $this-> filemanager -> echoGallery();
 
 
-                $this -> galleryController->model->ProcessInsertImage($BaseName, $CreateTS, $UUIDName);
-                $this -> galleryController->model->ProcessSelectImage($BaseName);
+                $this -> image -> BaseName = $_FILES["upload"]["name"];
+                $this -> image -> CreateTS = date('Y-m-d H:i:s');
+                $this -> image -> UUIDName = $this -> galleryController->model->GetUUID();
 
-                $this -> filemanager -> echoGallery();
+                $this->galleryController->model->InsertImage($this->image);
 
                 exit();
             }
