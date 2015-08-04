@@ -1,52 +1,35 @@
 <?php
 
     require_once './upload.php';
-class FileManager {
+class FileManager
+{
 
     private $newPath;
     private $tmpName;
+
     public function CopyFile($tmpName, $newPath)
     {
-            $this->newPath = $newPath;
-            $this->tmpName = $tmpName;
+        $this->newPath = $newPath;
+        $this->tmpName = $tmpName;
 
-        copy($this->tmpName,$this->newPath);
+        copy($this->tmpName, $this->newPath);
 
     }
-    public function getGallery()
-    {
-        $images = array();
-
-        $opendir = opendir('image');
-
-        if ($opendir != false) {
-            while (false !== ($file = readdir($opendir))) {
-                if ($file != '.' && $file != '..')
-                    $images[] = $file;
-        }
-            closedir($opendir);
-        }
-
-        return $images;
-    }
-
-    public function echoGallery()
+    
+    public function echoGallery($selectDate)
     {
 
-        if ($this->getGallery() == true) {
+        foreach ($selectDate as $uploadDate) {
 
-            $images = $this-> getGallery();
 
-            foreach ($images as $img) {
-                    echo '<a href = "image/' . $img . '"><img width = "300px" height = "300px" alt = "Фото" src = "image/' . $img . '"></a>';
-            }
+            echo '<div class = "image">' . '<a href = "image/' . $uploadDate['UUIDName'] . '"><img width = "300px" height = "300px" alt = "Фото" src = "image/' . $uploadDate['UUIDName'] . '"></a>'
+
+                .'<div class = "date">' . '<span class = "number">' . "Изображение №" . $uploadDate['id']. '</span>'  . '<br>' . "Время загрузки фотографии :" . " " . $uploadDate['CreateTS'] .'<br>' . "Название фотографии: " . " " . $uploadDate['BaseName'] .'</div>' . '</div>';
+
 
         }
-        else {
-                     echo "фото не загружено";
-        }
+
+
     }
-
-
 }
 

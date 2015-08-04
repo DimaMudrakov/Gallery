@@ -1,0 +1,18 @@
+a{
+    color: aqua;
+}
+.image{
+    margin-top: 20px;
+    width: 780px;
+    float:left;
+    border: 2px solid #ccffaa ;
+}
+.date{
+    float: right;
+    margin-right: 110px;
+    color: #1C86DC;
+}
+.number{
+    padding-left: 100px;
+}
+

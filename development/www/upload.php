@@ -3,12 +3,10 @@
     require_once 'Controller/UploadController.php';
     require_once 'Controller/GalleryController.php';
     require_once 'Classes/FileManager.php';
-    require_once 'Classes/DisplaySelect.php';
 
 
     class Upload{
 
-        private $displaySelect;
         private $UploadController;
         private $galleryController;
         private $filemanager;
@@ -16,7 +14,6 @@
 
         public function Redirect(){
 
-            $this -> displaySelect = new DisplaySelect();
             $this -> UploadController = new UploadController();
             $this -> galleryController = new GalleryController();
             $this -> filemanager = new FileManager();
@@ -28,16 +25,7 @@
                 $UUIDName = $this->galleryController->model->GetUUID();
 
                 $this -> filemanager -> CopyFile($tmpName,$newName . $UUIDName);
-
-                $BaseName = $_FILES["upload"]["name"];
-                $CreateTS = date('Y-m-d H:i:s');
-
-
-                $this -> galleryController->model->ProcessInsertImage($BaseName, $CreateTS, $UUIDName);
-                $this -> galleryController->model->ProcessSelectImage($BaseName);
-
-                $this -> filemanager -> echoGallery();
-
+                $this->GotoDB($UUIDName);
                 exit();
             }
             elseif($this -> UploadController -> FileIsset() == false){
@@ -63,6 +51,22 @@
             else{
                 echo "Файл не загружен";
             }
+        }
+        public function GotoDB($UUIDName){
+
+            $this->galleryController = new GalleryController();
+
+            $BaseName = $_FILES["upload"]["name"];
+            $CreateTS = date('Y-m-d H:i:s');
+
+            $this -> galleryController->model->ProcessInsertImage($BaseName, $CreateTS, $UUIDName);
+            $this -> galleryController->model->ProcessSelectImage();
+        }
+
+        public function GetCreateTS($selectDate){
+
+            $this->filemanager = new FileManager();
+            $this->filemanager->echoGallery($selectDate);
         }
     }
 $upload = new Upload();
