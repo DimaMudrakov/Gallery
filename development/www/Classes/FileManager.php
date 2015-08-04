@@ -15,7 +15,7 @@ class FileManager
         copy($this->tmpName, $this->newPath);
 
     }
-    
+
     public function echoGallery($selectDate)
     {
 

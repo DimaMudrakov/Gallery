@@ -3,12 +3,14 @@
     require_once 'Image.php';
     require_once './Controller/GalleryController.php';
     require_once './upload.php';
+    require_once 'Comment.php';
 
 class Model {
 
     private $dbProvider;
     private $dbConnection;
     private $image;
+    private $comment;
     private $controller;
     private $upload;
 
@@ -33,6 +35,16 @@ class Model {
         $cmd->execute();
 
     }
+    public function InsertComment($comment){
+
+        $cmd = $this->dbConnection->prepare("INSERT INTO comment(CreateTS, Imgtext) VALUES (:createTS, :Imgtext)");
+
+        $cmd->bindParam(":createTS", $comment->CreateTS);
+        $cmd->bindParam("Imgtext", $comment->Imgtext);
+
+        $cmd->execute();
+    }
+
     public function ProcessInsertImage($BaseName, $CreateTS, $UUIDName){
 
         $this->image = new Image();
@@ -43,6 +55,16 @@ class Model {
         $this->image->UUIDName = $UUIDName;
 
         $this->controller->model->InsertImage($this->image);
+
+    }
+    public function ProcessInsertComment($CreateTS, $Imgtext){
+        $this -> comment = new Comment();
+        $this -> controller = new GalleryController();
+
+        $this ->comment->CreateTS = $CreateTS;
+        $this ->comment->Imgtext = $Imgtext;
+
+        $this->controller->model->InsertComment($this->comment);
 
     }
     public function SelectImage(){

@@ -58,9 +58,12 @@
 
             $BaseName = $_FILES["upload"]["name"];
             $CreateTS = date('Y-m-d H:i:s');
+            $Imgtext = $_POST['comment'];
 
             $this -> galleryController->model->ProcessInsertImage($BaseName, $CreateTS, $UUIDName);
+            $this -> galleryController->model->ProcessInsertComment($CreateTS, $Imgtext);
             $this -> galleryController->model->ProcessSelectImage();
+
         }
 
         public function GetCreateTS($selectDate){
