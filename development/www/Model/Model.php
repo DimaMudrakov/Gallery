@@ -111,6 +111,26 @@ class Model {
 
 
     }
+    public function UpdateComment($comment){
+
+        $cmd = $this->dbConnection->prepare("UPDATE comment SET Imgtext=:Imgtext WHERE id=:id");
+
+        $cmd->bindParam(":Imgtext", $comment->Imgtext);
+        $cmd->bindParam(":id", $comment->ID);
+
+        $cmd->execute();
+
+    }
+    public function processUpdateComment($Imgtext, $ID){
+
+        $this->comment = new Comment();
+        $this->controller = new GalleryController();
+
+        $this->comment->Imgtext = $Imgtext;
+        $this->comment->ID = $ID;
+
+        $this->controller->model->UpdateComment($this->comment);
+    }
     public function GetUUID() {
 
         try {

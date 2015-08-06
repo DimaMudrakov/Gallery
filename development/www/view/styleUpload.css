@@ -28,5 +28,18 @@
 }
 .commentText{
     color: #1C86DC;
+    width: 340px;
+    height: 130px;
+    max-width: 410px;
+    max-height: 198px;
+
+}
+.buttonRecomment{
+    background-color: #AEE6EC;
+    margin-top: 15px;
+    border-radius: 10px;
+    border: none;
+    height: 30px;
+    cursor: pointer;
 }
 

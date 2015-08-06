@@ -36,7 +36,8 @@ class FileManager
 
         foreach($selectComment as $Imgtext){
 
-            echo '<div class = "comment"> '. '<span class = "commentText">' ."Ваш комментарий к фото №".$Imgtext['ImageID'] .'<br>'.$Imgtext['Imgtext']. '</span>'  . '</div>';
+            echo '<div class = "comment"> '. '<span class = "commentText">' ."Ваш комментарий к фото №".$Imgtext['ImageID']  .'</span>'.'<br>' .'<form action = "./upload.php"  method="POST">' .'<br>'.'<textarea class = "commentText"  name = "recomment" maxlength = "200" >' .$Imgtext['Imgtext'] . '</textarea>'
+                .'<input class = "buttonRecomment" type = "submit" name = "buttonRecomment" value = "Редактировать комментарий">' .'</form>'. '</div>';
         }
 
         echo '<a class = "link" href = "./index.php">Нажмите сюда чтобы загрузить фотографию </a>';
