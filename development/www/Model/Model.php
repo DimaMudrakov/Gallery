@@ -1,9 +1,10 @@
 <?php
 
+    require_once 'Comment.php';
     require_once 'Image.php';
     require_once './Controller/GalleryController.php';
     require_once './upload.php';
-    require_once 'Comment.php';
+
 
 class Model {
 
@@ -37,10 +38,11 @@ class Model {
     }
     public function InsertComment($comment){
 
-        $cmd = $this->dbConnection->prepare("INSERT INTO comment(CreateTS, Imgtext) VALUES (:createTS, :Imgtext)");
+        $cmd = $this->dbConnection->prepare("INSERT INTO comment(CreateTS, Imgtext, ImageID) VALUES (:createTS, :Imgtext, :ImageID )");
 
         $cmd->bindParam(":createTS", $comment->CreateTS);
-        $cmd->bindParam("Imgtext", $comment->Imgtext);
+        $cmd->bindParam(":Imgtext", $comment->Imgtext);
+        $cmd->bindParam(":ImageID", $comment->ImageID);
 
         $cmd->execute();
     }
@@ -57,10 +59,12 @@ class Model {
         $this->controller->model->InsertImage($this->image);
 
     }
-    public function ProcessInsertComment($CreateTS, $Imgtext){
+    public function ProcessInsertComment($CreateTS, $Imgtext, $ImageID){
+
         $this -> comment = new Comment();
         $this -> controller = new GalleryController();
 
+        $this->comment->ImageID = $ImageID;
         $this ->comment->CreateTS = $CreateTS;
         $this ->comment->Imgtext = $Imgtext;
 
@@ -77,14 +81,34 @@ class Model {
 
 
     }
+    public function SelectComment(){
+
+        $cmd = $this->dbConnection->prepare("SELECT Imgtext, ImageID FROM comment");
+
+        $cmd->execute();
+
+        return $cmd->fetchall();
+    }
     public function ProcessSelectImage(){
 
         $this->upload = new Upload();
 
         $this->controller = new GalleryController();
-        $selectDate = $this->controller->model->SelectImage();
+        $selectImage = $this->controller->model->SelectImage();
 
-        $this->upload->GetCreateTS($selectDate);
+        $this->upload->GetCreateTS($selectImage);
+        $this->upload->GotoDBComment($selectImage);
+
+    }
+    public function ProcessSelectComment(){
+
+        $this->upload = new Upload();
+        $this->controller = new GalleryController();
+
+        $selectComment = $this->controller->model->SelectComment();
+
+        $this->upload->GetImgtext($selectComment);
+
 
     }
     public function GetUUID() {

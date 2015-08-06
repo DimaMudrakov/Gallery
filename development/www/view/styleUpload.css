@@ -1,10 +1,11 @@
-a{
+.link{
     color: aqua;
+    clear: both;
 }
 .image{
+    float: left;
     margin-top: 20px;
     width: 780px;
-    float:left;
     border: 2px solid #ccffaa ;
 }
 .date{
@@ -14,5 +15,18 @@ a{
 }
 .number{
     padding-left: 100px;
+}
+.comment{
+    width: 530px;
+    border: 2px solid #ccffaa;
+    margin-top: 20px;
+    margin-left: 20px;
+    height: 303px;
+    display: inline-block;
+    text-align: center;
+    line-height: 20px;
+}
+.commentText{
+    color: #1C86DC;
 }
 

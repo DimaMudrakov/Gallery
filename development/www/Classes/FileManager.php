@@ -16,10 +16,11 @@ class FileManager
 
     }
 
-    public function echoGallery($selectDate)
+    public function echoGallery($selectImage)
     {
 
-        foreach ($selectDate as $uploadDate) {
+        foreach ($selectImage as $uploadDate) {
+
 
 
             echo '<div class = "image">' . '<a href = "image/' . $uploadDate['UUIDName'] . '"><img width = "300px" height = "300px" alt = "Фото" src = "image/' . $uploadDate['UUIDName'] . '"></a>'
@@ -30,6 +31,15 @@ class FileManager
         }
 
 
+    }
+    public function echoComment($selectComment){
+
+        foreach($selectComment as $Imgtext){
+
+            echo '<div class = "comment"> '. '<span class = "commentText">' ."Ваш комментарий к фото №".$Imgtext['ImageID'] .'<br>'.$Imgtext['Imgtext']. '</span>'  . '</div>';
+        }
+
+        echo '<a class = "link" href = "./index.php">Нажмите сюда чтобы загрузить фотографию </a>';
     }
 }
 

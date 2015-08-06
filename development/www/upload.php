@@ -25,7 +25,7 @@
                 $UUIDName = $this->galleryController->model->GetUUID();
 
                 $this -> filemanager -> CopyFile($tmpName,$newName . $UUIDName);
-                $this->GotoDB($UUIDName);
+                $this->GotoDBImage($UUIDName);
                 exit();
             }
             elseif($this -> UploadController -> FileIsset() == false){
@@ -52,25 +52,47 @@
                 echo "Файл не загружен";
             }
         }
-        public function GotoDB($UUIDName){
+        public function GotoDBImage($UUIDName){
 
             $this->galleryController = new GalleryController();
 
             $BaseName = $_FILES["upload"]["name"];
             $CreateTS = date('Y-m-d H:i:s');
-            $Imgtext = $_POST['comment'];
 
             $this -> galleryController->model->ProcessInsertImage($BaseName, $CreateTS, $UUIDName);
-            $this -> galleryController->model->ProcessInsertComment($CreateTS, $Imgtext);
             $this -> galleryController->model->ProcessSelectImage();
 
         }
 
-        public function GetCreateTS($selectDate){
+        public function GotoDBComment($selectImage){
+
+            $this->galleryController = new GalleryController();
+
+            $Imgtext = $_POST['comment'];
+            $CreateTS = date('Y-m-d H:i:s');
+
+            foreach($selectImage as $id){
+
+                $ImageID = $id['id'];
+
+            }
+            $this -> galleryController->model->ProcessInsertComment($CreateTS, $Imgtext, $ImageID);
+            $this -> galleryController->model->ProcessSelectComment();
+
+        }
+
+        public function GetCreateTS($selectImage){
 
             $this->filemanager = new FileManager();
-            $this->filemanager->echoGallery($selectDate);
+            $this->filemanager->echoGallery($selectImage);
+
         }
+        public function GetImgtext($selectComment){
+
+            $this->filemanager = new FileManager();
+            $this->filemanager->echoComment($selectComment);
+        }
+
     }
 $upload = new Upload();
 $upload -> Redirect();
