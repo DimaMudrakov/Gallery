@@ -46,7 +46,14 @@
                 return false;
             }
         }
-
+        public function CheckIssetRecomment(){
+            if(isset($_POST['buttomRecomment'])){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
 
     }
 

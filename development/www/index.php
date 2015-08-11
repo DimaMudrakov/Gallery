@@ -20,4 +20,5 @@
     }
     $index = new index();
     $index -> EchoCookie();
+
 ?>

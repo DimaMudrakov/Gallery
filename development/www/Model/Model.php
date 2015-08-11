@@ -83,7 +83,7 @@ class Model {
     }
     public function SelectComment(){
 
-        $cmd = $this->dbConnection->prepare("SELECT Imgtext, ImageID FROM comment");
+        $cmd = $this->dbConnection->prepare("SELECT * FROM comment");
 
         $cmd->execute();
 

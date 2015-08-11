@@ -25,10 +25,11 @@
                 $UUIDName = $this->galleryController->model->GetUUID();
 
                 $this -> filemanager -> CopyFile($tmpName,$newName . $UUIDName);
-                $this->GotoDBImage($UUIDName);
+                $this -> GotoDBImage($UUIDName);
                 exit();
             }
             elseif($this -> UploadController -> FileIsset() == false){
+                $this -> Recomment();
                 setcookie("Error","Выберите файл и нажмите загрузить фотографию",time() + 3600 * 24);
                 header('location: index.php');
                 exit();
@@ -51,6 +52,36 @@
             else{
                 echo "Файл не загружен";
             }
+        }
+        public function Recomment(){
+
+            $this->UploadController  = new UploadController();
+            $this->galleryController = new GalleryController();
+
+            if($this->UploadController->CheckIssetRecomment() == true){
+
+                //$this->galleryController->model->GetSelectRecomment();
+                $this-> GotoDBRecomment();
+            }
+            else{
+                setcookie("Error","Выберите файл и нажмите загрузить фотографию",time() + 3600 * 24);
+                header('location: index.php');
+                exit();
+            }
+
+        }
+        public function GotoDBRecomment(){
+
+            $this->UploadController = new UploadController();
+            $this->galleryController = new GalleryController();
+
+            $Imgtext = $_POST['recomment'];
+            $ID = $_POST['IDcomment'];
+
+            $this->galleryController->model->processUpdateComment($Imgtext, $ID);
+
+
+
         }
         public function GotoDBImage($UUIDName){
 
