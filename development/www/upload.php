@@ -15,21 +15,13 @@
         public function Redirect(){
 
             $this -> UploadController = new UploadController();
-            $this -> galleryController = new GalleryController();
-            $this -> filemanager = new FileManager();
 
             if($this-> UploadController->CheckUploadStatus() == true) {
 
-                $tmpName = $_FILES["upload"]["tmp_name"];
-                $newName = "image/";
-                $UUIDName = $this->galleryController->model->GetUUID();
-
-                $this -> filemanager -> CopyFile($tmpName,$newName . $UUIDName);
-                $this -> GotoDBImage($UUIDName);
-                exit();
+                return true;
             }
             elseif($this -> UploadController -> FileIsset() == false){
-                $this -> Recomment();
+
                 setcookie("Error","Выберите файл и нажмите загрузить фотографию",time() + 3600 * 24);
                 header('location: index.php');
                 exit();
@@ -53,20 +45,36 @@
                 echo "Файл не загружен";
             }
         }
-        public function Recomment(){
+        public function StartGallery(){
+
+            $this ->filemanager = new FileManager();
+            $this ->galleryController = new GalleryController();
+
+            $tmpName = $_FILES["upload"]["tmp_name"];
+            $newName = "image/";
+            $UUIDName = $this->galleryController->model->GetUUID();
+
+            $this -> filemanager -> CopyFile($tmpName,$newName . $UUIDName);
+            $this -> GotoDBImage($UUIDName);
+            exit();
+
+
+        }
+        public function GetRecomment(){
+
 
             $this->UploadController  = new UploadController();
             $this->galleryController = new GalleryController();
+            $this->filemanager  = new FileManager();
 
             if($this->UploadController->CheckIssetRecomment() == true){
 
-                //$this->galleryController->model->GetSelectRecomment();
-                $this-> GotoDBRecomment();
+                $this -> GotoDBRecomment();
+                $this->Redirect();
+
             }
-            else{
-                setcookie("Error","Выберите файл и нажмите загрузить фотографию",time() + 3600 * 24);
-                header('location: index.php');
-                exit();
+            elseif($this->Redirect() == true){
+                $this -> StartGallery();
             }
 
         }
@@ -126,5 +134,5 @@
 
     }
 $upload = new Upload();
-$upload -> Redirect();
+$upload -> GetRecomment();
 ?>
