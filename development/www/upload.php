@@ -47,37 +47,48 @@
         }
         public function StartGallery(){
 
-            $this ->filemanager = new FileManager();
-            $this ->galleryController = new GalleryController();
+            if($this->Redirect() == true) {
 
-            $tmpName = $_FILES["upload"]["tmp_name"];
-            $newName = "image/";
-            $UUIDName = $this->galleryController->model->GetUUID();
+                $this->filemanager = new FileManager();
+                $this->galleryController = new GalleryController();
 
-            $this -> filemanager -> CopyFile($tmpName,$newName . $UUIDName);
-            $this -> GotoDBImage($UUIDName);
-            exit();
+                $tmpName = $_FILES["upload"]["tmp_name"];
+                $newName = "image/";
+                $UUIDName = $this->galleryController->model->GetUUID();
+
+                $this->filemanager->CopyFile($tmpName, $newName . $UUIDName);
+                $this->GotoDBImage($UUIDName);
+            }
+            else{
+                exit();
+            }
+
 
 
         }
-        public function GetRecomment(){
+        public function GetGallery($selectImage, $selectComment){
 
 
             $this->UploadController  = new UploadController();
-            $this->galleryController = new GalleryController();
             $this->filemanager  = new FileManager();
 
             if($this->UploadController->CheckIssetRecomment() == true){
 
                 $this -> GotoDBRecomment();
-                $this->Redirect();
+
+                $this->filemanager->echoGallery($selectImage);
+                $this->filemanager->echoComment($selectComment);
 
             }
-            elseif($this->Redirect() == true){
-                $this -> StartGallery();
+            else{
+
+                $this->filemanager->echoGallery($selectImage);
+                $this->filemanager->echoComment($selectComment);
+
             }
 
         }
+
         public function GotoDBRecomment(){
 
             $this->UploadController = new UploadController();
@@ -99,7 +110,7 @@
             $CreateTS = date('Y-m-d H:i:s');
 
             $this -> galleryController->model->ProcessInsertImage($BaseName, $CreateTS, $UUIDName);
-            $this -> galleryController->model->ProcessSelectImage();
+            $this -> galleryController->model->ProcessSelect();
 
         }
 
@@ -116,23 +127,13 @@
 
             }
             $this -> galleryController->model->ProcessInsertComment($CreateTS, $Imgtext, $ImageID);
-            $this -> galleryController->model->ProcessSelectComment();
 
-        }
 
-        public function GetCreateTS($selectImage){
-
-            $this->filemanager = new FileManager();
-            $this->filemanager->echoGallery($selectImage);
-
-        }
-        public function GetImgtext($selectComment){
-
-            $this->filemanager = new FileManager();
-            $this->filemanager->echoComment($selectComment);
         }
 
     }
-$upload = new Upload();
-$upload -> GetRecomment();
+
+    $upload = new Upload();
+    $upload -> StartGallery();
+
 ?>
