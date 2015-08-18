@@ -89,7 +89,7 @@ class Model {
 
         return $cmd->fetchall();
     }
-    public function ProcessSelect(){
+    public function ProcessSelectImage(){
 
         $this->upload = new Upload();
         $this->controller = new GalleryController();
@@ -97,13 +97,21 @@ class Model {
 
         $selectImage = $this->controller->model->SelectImage();
 
-        $this -> upload-> GotoDBComment($selectImage);
+
+        $this->upload->GetCreateTS($selectImage);
+        $this->upload->GotoDBComment($selectImage);
+
+
+
+    }
+    public function ProcessSelectComment(){
+
+        $this->upload = new Upload();
+        $this->controller = new GalleryController();
 
         $selectComment = $this->controller->model->SelectComment();
 
-        $this -> upload -> GetGallery($selectImage,$selectComment);
-
-
+        $this->upload->GetImgtext($selectComment);
 
     }
     public function UpdateComment($comment){

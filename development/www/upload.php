@@ -66,15 +66,18 @@
 
 
         }
-        public function GetGallery($selectImage, $selectComment){
-
+        public function GetRecomment(){
 
             $this->UploadController  = new UploadController();
             $this->filemanager  = new FileManager();
+            $this->galleryController = new GalleryController();
 
-            if($this->UploadController->CheckIssetRecomment() == true){
+            if($this->UploadController->CheckIssetRecomment() == true) {
 
-                $this -> GotoDBRecomment();
+                $this->GotoDBRecomment();
+
+                $selectImage = $this->galleryController->model->SelectImage();
+                $selectComment =  $this->galleryController->model->SelectComment();
 
                 $this->filemanager->echoGallery($selectImage);
                 $this->filemanager->echoComment($selectComment);
@@ -82,16 +85,13 @@
             }
             else{
 
-                $this->filemanager->echoGallery($selectImage);
-                $this->filemanager->echoComment($selectComment);
-
+               $this->StartGallery();
             }
 
         }
 
         public function GotoDBRecomment(){
 
-            $this->UploadController = new UploadController();
             $this->galleryController = new GalleryController();
 
             $Imgtext = $_POST['recomment'];
@@ -110,7 +110,7 @@
             $CreateTS = date('Y-m-d H:i:s');
 
             $this -> galleryController->model->ProcessInsertImage($BaseName, $CreateTS, $UUIDName);
-            $this -> galleryController->model->ProcessSelect();
+            $this -> galleryController->model->ProcessSelectImage();
 
         }
 
@@ -127,13 +127,26 @@
 
             }
             $this -> galleryController->model->ProcessInsertComment($CreateTS, $Imgtext, $ImageID);
+            $this -> galleryController->model->ProcessSelectComment();
 
+            }
 
-        }
+            public function GetCreateTS($selectImage){
+
+                $this->filemanager = new FileManager();
+                $this->filemanager->echoGallery($selectImage);
+
+            }
+            public function GetImgtext($selectComment){
+
+                $this->filemanager = new FileManager();
+                $this->filemanager->echoComment($selectComment);
+            }
+
 
     }
 
     $upload = new Upload();
-    $upload -> StartGallery();
+    $upload ->GetRecomment();
 
 ?>
