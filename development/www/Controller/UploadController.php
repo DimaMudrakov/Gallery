@@ -54,6 +54,14 @@
                 return false;
             }
         }
+        public function CheckIssetbuttonDelete(){
+            if(isset($_POST['buttonDelete'])){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
 
     }
 

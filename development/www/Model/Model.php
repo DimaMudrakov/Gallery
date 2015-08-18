@@ -134,6 +134,16 @@ class Model {
 
         $this->controller->model->UpdateComment($this->comment);
     }
+
+    public function processDeleteImage($ImageID){
+
+
+
+    }
+    public function processDeleteComment($ImageID){
+
+
+    }
     public function GetUUID() {
 
         try {

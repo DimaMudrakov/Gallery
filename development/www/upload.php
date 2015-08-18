@@ -66,7 +66,7 @@
 
 
         }
-        public function GetRecomment(){
+        public function GetGallery(){
 
             $this->UploadController  = new UploadController();
             $this->filemanager  = new FileManager();
@@ -83,11 +83,41 @@
                 $this->filemanager->echoComment($selectComment);
 
             }
+           elseif($this->UploadController->CheckIssetbuttonDelete() == true){
+
+                $this->GotoDBDeleteImage();
+                $this->GotoDBDeleteComment();
+
+                $selectImage = $this->galleryController->model->SelectImage();
+                $selectComment =  $this->galleryController->model->SelectComment();
+
+                $this->filemanager->echoGallery($selectImage);
+                $this->filemanager->echoComment($selectComment);
+            }
             else{
 
                $this->StartGallery();
             }
 
+        }
+
+        public function GotoDBDeleteImage(){
+
+            $this->galleryController = new GalleryController();
+
+            $ImageID = $_POST['ImageID'];
+
+            $this->galleryController->model->processDeleteImage($ImageID);
+
+
+        }
+        public function GotoDBDeleteComment(){
+
+            $this->galleryController = new GalleryController();
+
+            $ImageID = $_POST['ImageID'];
+
+            $this->galleryController->model->processDeleteComment($ImageID);
         }
 
         public function GotoDBRecomment(){
@@ -147,6 +177,6 @@
     }
 
     $upload = new Upload();
-    $upload ->GetRecomment();
+    $upload ->GetGallery();
 
 ?>
