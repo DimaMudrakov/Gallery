@@ -27,11 +27,12 @@ class Model {
     public function InsertImage($image)
     {
 
-        $cmd = $this->dbConnection->prepare("INSERT INTO image(CreateTS, BaseName, UUIDName) VALUES(:createTS, :baseName, :uuidName)");
+        $cmd = $this->dbConnection->prepare("INSERT INTO image(CreateTS, BaseName, UUIDName, FileSize) VALUES(:createTS, :baseName, :uuidName, :FileSize)");
 
         $cmd->bindParam(":createTS", $image->CreateTS);
         $cmd->bindParam(":baseName", $image->BaseName);
         $cmd->bindParam(":uuidName", $image->UUIDName);
+        $cmd->bindParam(":FileSize", $image->FileSize);
 
         $cmd->execute();
 
@@ -47,7 +48,7 @@ class Model {
         $cmd->execute();
     }
 
-    public function ProcessInsertImage($BaseName, $CreateTS, $UUIDName){
+    public function ProcessInsertImage($BaseName, $CreateTS, $UUIDName, $FileSize){
 
         $this->image = new Image();
         $this->controller = new GalleryController();
@@ -55,6 +56,7 @@ class Model {
         $this->image->BaseName = $BaseName;
         $this->image->CreateTS = $CreateTS;
         $this->image->UUIDName = $UUIDName;
+        $this->image->FileSize = $FileSize;
 
         $this->controller->model->InsertImage($this->image);
 
@@ -135,13 +137,43 @@ class Model {
         $this->controller->model->UpdateComment($this->comment);
     }
 
+    public function DeleteImage($Image){
+
+        $cmd = $this->dbConnection->prepare("DELETE FROM image WHERE id = :id ");
+
+        $cmd->bindParam(":id", $Image->ID);
+
+        $cmd->execute();
+
+    }
+    public function DeleteComment($Comment){
+
+        $cmd= $this->dbConnection->prepare("DELETE FROM comment WHERE ImageID = :imgID");
+
+        $cmd->bindParam(":imgID", $Comment->ImageID);
+
+        $cmd->execute();
+
+    }
     public function processDeleteImage($ImageID){
 
+        $this->controller = new GalleryController();
+        $this->image = new Image();
+
+        $this->image->ID = $ImageID;
+
+        $this->controller->model->DeleteImage($this->image);
 
 
     }
     public function processDeleteComment($ImageID){
 
+        $this->controller = new GalleryController();
+        $this->comment = new Comment();
+
+        $this->comment->ImageID = $ImageID;
+
+        $this->controller->model->DeleteComment($this->comment);
 
     }
     public function GetUUID() {

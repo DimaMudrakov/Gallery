@@ -15,6 +15,11 @@ class FileManager
         copy($this->tmpName, $this->newPath);
 
     }
+    public function DeleteFile($UUIDName){
+
+        unlink('image/' . $UUIDName);
+
+    }
 
     public function echoGallery($selectImage)
     {
@@ -25,11 +30,13 @@ class FileManager
 
             echo  '<div class = "image">' .'<form method = "post" action="./upload.php">'.'<input class = "buttonDelete" type = "submit" name = "Delete" value = "Удалить изображение и комментарий">'
 
-                .'<input type = "hidden" name = "ImageID" value = "' .$uploadDate['id'] . '">'  .'</form>'
+                .'<input type = "hidden" name = "ImageID" value = "' .$uploadDate['id'] . '">' .'<input type = "hidden" name = "UUIDName" value = "'.$uploadDate['UUIDName']  .'">' .'</form>'
 
                 .'<div class = "image_block">'  .'<a href = "image/' . $uploadDate['UUIDName'] . '"><img width = "300px" height = "300px" alt = "Фото" src = "image/' . $uploadDate['UUIDName'] . '"></a>' .'</div>'
 
-                .'<div class = "date">' . '<span class = "number">' . "Изображение №" . $uploadDate['id']. '</span>'  . '<br>' . "Время загрузки фотографии :" . " " . $uploadDate['CreateTS'] .'<br>' . "Название фотографии: " . " " . $uploadDate['BaseName'] .'</div>' . '</div>';
+                .'<div class = "date">' . '<span class = "number">' . "Изображение №" . $uploadDate['id']. '</span>'  . '<br>' . "Время загрузки фотографии :" . " " . $uploadDate['CreateTS'] .'<br>' . "Название фотографии: " . " " . $uploadDate['BaseName'] .'<br>'
+
+                ."Размер фотографии :" ." " .$uploadDate['FileSize'] . " "  ."байта" .'</div>' . '</div>';
 
 
         }

@@ -83,10 +83,14 @@
                 $this->filemanager->echoComment($selectComment);
 
             }
-           elseif($this->UploadController->CheckIssetbuttonDelete() == true){
+          elseif($this->UploadController->CheckIssetbuttonDelete() == true){
 
-                $this->GotoDBDeleteImage();
-                $this->GotoDBDeleteComment();
+
+              $this->GotoDBDeleteComment();
+              $this->GotoDBDeleteImage();
+              $this->GotoDeleteFile();
+
+
 
                 $selectImage = $this->galleryController->model->SelectImage();
                 $selectComment =  $this->galleryController->model->SelectComment();
@@ -99,6 +103,14 @@
                $this->StartGallery();
             }
 
+        }
+        public function GotoDeleteFile(){
+
+            $this->filemanager = new FileManager();
+
+            $UUIDName = $_POST['UUIDName'];
+
+            $this->filemanager->DeleteFile($UUIDName);
         }
 
         public function GotoDBDeleteImage(){
@@ -137,9 +149,10 @@
             $this->galleryController = new GalleryController();
 
             $BaseName = $_FILES["upload"]["name"];
+            $FileSize = $_FILES["upload"]['size'];
             $CreateTS = date('Y-m-d H:i:s');
 
-            $this -> galleryController->model->ProcessInsertImage($BaseName, $CreateTS, $UUIDName);
+            $this -> galleryController->model->ProcessInsertImage($BaseName, $CreateTS, $UUIDName, $FileSize);
             $this -> galleryController->model->ProcessSelectImage();
 
         }

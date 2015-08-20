@@ -55,7 +55,7 @@
             }
         }
         public function CheckIssetbuttonDelete(){
-            if(isset($_POST['buttonDelete'])){
+            if(isset($_POST['Delete'])){
                 return true;
             }
             else{

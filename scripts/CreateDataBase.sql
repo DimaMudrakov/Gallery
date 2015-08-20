@@ -8,7 +8,8 @@
   CREATE TABLE image (id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
                       CreateTS DATETIME NOT NULL,
                       BaseName VARCHAR(255) NOT NULL,
-                      UUIDName VARCHAR(255) NOT NULL
+                      UUIDName VARCHAR(255) NOT NULL,
+                      FileSize INT(11) NOT NULL
                      );
   CREATE TABLE comment(id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
                         CreateTS DATETIME NOT NULL,

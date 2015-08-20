@@ -5,4 +5,5 @@ class Image {
     public $CreateTS;
     public $BaseName;
     public $UUIDName;
+    public $FileSize;
 }
