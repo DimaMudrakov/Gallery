@@ -79,6 +79,7 @@
                 $selectImage = $this->galleryController->model->SelectImage();
                 $selectComment =  $this->galleryController->model->SelectComment();
 
+                $this->filemanager->EchoSelect();
                 $this->filemanager->echoGallery($selectImage);
                 $this->filemanager->echoComment($selectComment);
 
@@ -95,12 +96,16 @@
                 $selectImage = $this->galleryController->model->SelectImage();
                 $selectComment =  $this->galleryController->model->SelectComment();
 
+                $this->filemanager->EchoSelect();
                 $this->filemanager->echoGallery($selectImage);
                 $this->filemanager->echoComment($selectComment);
+
             }
             else{
 
-               $this->StartGallery();
+                $this->filemanager->EchoSelect();
+                $this->StartGallery();
+
             }
 
         }

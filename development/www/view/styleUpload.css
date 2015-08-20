@@ -1,6 +1,12 @@
 .link{
     color: aqua;
     clear: both;
+    width: 330px;
+    height: 20px;
+    border: 2px solid #ccffaa;
+    margin-top: 10px;
+    margin-left: 520px;
+    padding-left: 15px;
 }
 .image{
     float: left;
@@ -55,5 +61,32 @@
 }
 .image_block{
     float: left;
+}
+.select{
+    border: 2px solid #ccffaa;
+    width: 1334px;
+    height: 85px;
+    text-align: center;
+}
+.SizePhoto{
+    margin-top: 10px;
+    float: left;
+    margin-left: 515px;
+    height: 30px;
+    color: #1C86DC;
+}
+.buttonSort{
+    background-color: #AEE6EC;
+    border-radius: 10px;
+    border: none;
+    height: 30px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-right: 380px;
+}
+.sort{
+    color: #1C86DC;
+    font-family: cursive;
+
 }
 

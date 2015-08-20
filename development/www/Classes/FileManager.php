@@ -34,9 +34,9 @@ class FileManager
 
                 .'<div class = "image_block">'  .'<a href = "image/' . $uploadDate['UUIDName'] . '"><img width = "300px" height = "300px" alt = "Фото" src = "image/' . $uploadDate['UUIDName'] . '"></a>' .'</div>'
 
-                .'<div class = "date">' . '<span class = "number">' . "Изображение №" . $uploadDate['id']. '</span>'  . '<br>' . "Время загрузки фотографии :" . " " . $uploadDate['CreateTS'] .'<br>' . "Название фотографии: " . " " . $uploadDate['BaseName'] .'<br>'
+                .'<div class = "date">' . '<span class = "number">' . "Изображение №" . $uploadDate['id']. '</span>'  . '<br>' . "Время загрузки изображения :" . " " . $uploadDate['CreateTS'] .'<br>' . "Название изображения : " . " " . $uploadDate['BaseName'] .'<br>'
 
-                ."Размер фотографии :" ." " .$uploadDate['FileSize'] . " "  ."байта" .'</div>' . '</div>';
+                ."Размер изображения :" ." " .$uploadDate['FileSize'] . " "  ."байта" .'</div>' . '</div>';
 
 
         }
@@ -47,7 +47,7 @@ class FileManager
 
         foreach($selectComment as $Imgtext){
 
-            echo '<div class = "comment"> '. '<span class = "commentText">' ."Ваш комментарий к фото №".$Imgtext['ImageID']  .'</span>'.'<br>' .'<form action = "./upload.php"  method="POST">'
+            echo '<div class = "comment"> '. '<span class = "commentText">' ."Ваш комментарий к изображению №".$Imgtext['ImageID']  .'</span>'.'<br>' .'<form action = "./upload.php"  method="POST">'
 
                 .'<br>'.'<textarea class = "commentText"  name = "recomment" maxlength = "200" >' .$Imgtext['Imgtext'] . '</textarea>'
 
@@ -58,7 +58,27 @@ class FileManager
                 .'</form>'. '</div>';
         }
 
-        echo '<a class = "link" href = "./index.php">Нажмите сюда чтобы загрузить фотографию </a>';
+        echo '<div class = link >'.'<a href = "./index.php">Нажмите сюда чтобы загрузить изображения </a>' . '</div>';
+    }
+    public function EchoSelect(){
+
+        echo '<div class = "select">' .'<form method = "post" action = "./upload.php">' . '<span class = "sort">' . "Сортировка изображений по:" .'<br>'
+
+            .'</span>' ." " .'<select class = "SizePhoto" name = "Filter">'
+
+            .'<option value = "Size_from_small_to_big">'. " Возростанию размера изображения" . '</option>'
+
+            .'<option value = "Size_from_big_to_small">  Убыванию размера изображения </option>'
+
+            .'<option value = "Date_from_start_to_end">  Возростанию времени загрузки изображения</option>'
+
+            .'<option value = "Date_from_end_to_start"> Убыванию времени загрузки изображения</option>'
+
+            .'</select>'
+
+            .'<input class = "buttonSort" type = "submit" name = "filter" value = "сортировать">'
+
+            .'</form>' .'</select>'. '</div>';
     }
 }
 
