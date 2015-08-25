@@ -39,10 +39,11 @@ class Model {
     }
     public function InsertComment($comment){
 
-        $cmd = $this->dbConnection->prepare("INSERT INTO comment(CreateTS, Imgtext, ImageID) VALUES (:createTS, :Imgtext, :ImageID )");
+        $cmd = $this->dbConnection->prepare("INSERT INTO comment(CreateTS, Imgtext,ImageSize,ImageID) VALUES (:createTS, :Imgtext,:ImageSize ,:ImageID )");
 
         $cmd->bindParam(":createTS", $comment->CreateTS);
         $cmd->bindParam(":Imgtext", $comment->Imgtext);
+        $cmd->bindParam(":ImageSize", $comment->ImageSize);
         $cmd->bindParam(":ImageID", $comment->ImageID);
 
         $cmd->execute();
@@ -61,7 +62,7 @@ class Model {
         $this->controller->model->InsertImage($this->image);
 
     }
-    public function ProcessInsertComment($CreateTS, $Imgtext, $ImageID){
+    public function ProcessInsertComment($CreateTS, $Imgtext, $ImageSize ,$ImageID){
 
         $this -> comment = new Comment();
         $this -> controller = new GalleryController();
@@ -69,6 +70,7 @@ class Model {
         $this->comment->ImageID = $ImageID;
         $this ->comment->CreateTS = $CreateTS;
         $this ->comment->Imgtext = $Imgtext;
+        $this ->comment->ImageSize = $ImageSize;
 
         $this->controller->model->InsertComment($this->comment);
 
@@ -175,6 +177,70 @@ class Model {
 
         $this->controller->model->DeleteComment($this->comment);
 
+    }
+    public function SelectImagebyDateMin(){
+
+        $cmd = $this->dbConnection->prepare("SELECT * FROM image ORDER BY CreateTS");
+
+        $cmd->execute();
+
+        return $cmd->fetchall();
+    }
+    public function SelectImagebyDateMax(){
+
+        $cmd = $this->dbConnection->prepare("SELECT * FROM image ORDER BY CreateTS DESC ");
+
+        $cmd->execute();
+
+        return $cmd->fetchall();
+    }
+    public function SelectImagebySizeMin(){
+
+        $cmd = $this->dbConnection->prepare("SELECT * FROM image ORDER BY FileSize");
+
+        $cmd->execute();
+
+        return $cmd->fetchall();
+    }
+    public function SelectImagebySizeMax(){
+
+        $cmd = $this->dbConnection->prepare("SELECT * FROM image ORDER BY FileSize DESC ");
+
+        $cmd ->execute();
+
+        return $cmd->fetchall();
+    }
+    public function SelectCommentbySizeMax(){
+
+        $cmd = $this->dbConnection->prepare("SELECT * FROM comment ORDER BY ImageSize DESC ");
+
+        $cmd -> execute();
+
+        return $cmd->fetchall();
+    }
+    public function SelectCommentbySizeMin(){
+
+        $cmd = $this->dbConnection->prepare("SELECT * FROM comment ORDER BY ImageSize ");
+
+        $cmd -> execute();
+
+        return $cmd->fetchall();
+    }
+    public function SelectCommentbyDateMin(){
+
+        $cmd = $this->dbConnection->prepare("SELECT * FROM comment ORDER BY CreateTS");
+
+        $cmd -> execute();
+
+        return $cmd->fetchall();
+    }
+    public function SelectCommentbyDateMax(){
+
+        $cmd = $this->dbConnection->prepare("SELECT * FROM comment ORDER BY CreateTS DESC ");
+
+        $cmd -> execute();
+
+        return $cmd->fetchall();
     }
     public function GetUUID() {
 

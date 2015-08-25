@@ -62,6 +62,14 @@
                 return false;
             }
         }
+        public function CheckIssetButtonSort(){
+            if(isset($_POST['buttonFilter'])){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
 
     }
 

@@ -101,12 +101,73 @@
                 $this->filemanager->echoComment($selectComment);
 
             }
+            elseif($this->UploadController->CheckIssetButtonSort() == true){
+
+                $this->GotoSelectSort();
+            }
             else{
 
                 $this->filemanager->EchoSelect();
                 $this->StartGallery();
 
             }
+
+        }
+        public function GotoSelectSort(){
+
+            $this->galleryController = new GalleryController();
+            $this->filemanager = new FileManager();
+
+            if($_POST['Filter'] == 'Size_from_small_to_big'){
+
+                $this->filemanager->EchoSelect();
+
+                $selectImage = $this->galleryController->model->SelectImagebySizeMin();
+                $this->filemanager->echoGallery($selectImage);
+
+                $selectComment = $this->galleryController->model->SelectCommentbySizeMin();
+                $this->filemanager->echoComment($selectComment);
+
+
+
+            }
+            elseif($_POST['Filter'] == 'Size_from_big_to_small'){
+
+                $this->filemanager->EchoSelectAfterFilter1();
+
+                $selectImage = $this->galleryController->model->SelectImagebySizeMax();
+                $this->filemanager->echoGallery($selectImage);
+
+                $selectComment = $this->galleryController->model->SelectCommentbySizeMax();
+                $this->filemanager->echoComment($selectComment);
+
+            }
+            elseif($_POST['Filter'] == 'Date_from_start_to_end'){
+
+                $this->filemanager->EchoSelectAfterFilter2();
+
+                $selectImage = $this->galleryController->model->SelectImagebyDateMin();
+                $this->filemanager->echoGallery($selectImage);
+
+                $selectComment = $this->galleryController->model->SelectCommentbyDateMin();
+                $this->filemanager->echoComment($selectComment);
+
+            }
+            elseif($_POST['Filter'] == 'Date_from_end_to_start'){
+
+                $this->filemanager->EchoSelectAfterFilter3();
+
+                $selectImage = $this->galleryController->model->SelectImagebyDateMax();
+                $this->filemanager->echoGallery($selectImage);
+
+                $selectComment = $this->galleryController->model->SelectCommentbyDateMax();
+                $this->filemanager->echoComment($selectComment);
+
+            }
+            else{
+                return false;
+            }
+
 
         }
         public function GotoDeleteFile(){
@@ -172,9 +233,10 @@
             foreach($selectImage as $id){
 
                 $ImageID = $id['id'];
+                $ImageSize = $id['FileSize'];
 
             }
-            $this -> galleryController->model->ProcessInsertComment($CreateTS, $Imgtext, $ImageID);
+            $this -> galleryController->model->ProcessInsertComment($CreateTS, $Imgtext,$ImageSize ,$ImageID);
             $this -> galleryController->model->ProcessSelectComment();
 
             }
