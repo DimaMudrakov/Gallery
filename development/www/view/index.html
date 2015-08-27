@@ -8,10 +8,16 @@
             <link rel = "stylesheet" href = "view/media_queries.css">
         </head>
         <body>
-            <form action = "upload.php" method="POST" enctype = "multipart/form-data">
-                <input type = "file" name = "upload" >
-                <input type = "submit" name = "submit" value = "Загрузить фотографию">
-                <textarea name = "comment" maxlength = "200" placeholder = "Напишите комментарий к фотографии"></textarea>
-            </form>
+
+            <h1>Добро пожаловать в онлайн галерею</h1>
+
+            <div class = "form_send">
+                <form action = "upload.php" method="POST" enctype = "multipart/form-data">
+                    <input type = "button" class = "button" value = "Выберите файл">
+                    <input class = "file" type = "file" name = "upload" >
+                    <input class = "submit"type = "submit" name = "submit" value = "Загрузить фотографию">
+                    <textarea  class = "comment" name = "comment" maxlength = "200" placeholder = "Напишите комментарий к фотографии"></textarea>
+                </form>
+            </div>
         </body>
     </html>

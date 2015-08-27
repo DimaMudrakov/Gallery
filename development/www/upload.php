@@ -22,22 +22,22 @@
             }
             elseif($this -> UploadController -> FileIsset() == false){
 
-                setcookie("Error","Выберите файл и нажмите загрузить фотографию",time() + 3600 * 24);
+                setcookie("Error",'<div class = "select_file">'."Выберите файл и нажмите загрузить фотографию".'</div>',time() + 3600 * 24);
                 header('location: index.php');
                 exit();
             }
             elseif($this -> UploadController -> IsUploadedFile() == false){
-                setcookie("Error", "Выберите файл", time() + 3600 * 24);
+                setcookie("Error", '<div class = "select_file">'."Выберите файл" .'</div>', time() + 3600 * 24);
                 header('location: index.php');
                 exit();
             }
             elseif($this -> UploadController -> SizeFile() == false){
-                setcookie("Error", "Размер файла не должен превышать 1мб", time () + 3600 * 24);
+                setcookie("Error",'<div class = "select_file">'. "Размер файла не должен превышать 1мб".'</div>', time () + 3600 * 24);
                 header('location: index.php');
                 exit();
             }
             elseif($this -> UploadController -> TypeFile() == false){
-                setcookie("Error", "Не верный формат файла", time() + 3600 * 24);
+                setcookie("Error",'<div class = "select_file">'. "Не верный формат файла".'</div>', time() + 3600 * 24);
                 header('location: index.php');
                 exit();
             }
